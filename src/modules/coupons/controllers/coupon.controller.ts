@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
-import { CouponService } from '../service/coupon.service';
-import { CreateCouponSchema } from '../dto/createCoupon.dto';
-import { validateBody } from '../../../common/middlewares/validationMiddleware';
-import { getStrategy } from '../strategies/strategyFactory';
+import { Request, Response, NextFunction } from "express";
+import { CouponService } from "../service/coupon.service";
+import { CreateCouponSchema } from "../dto/createCoupon.dto";
+import { validateBody } from "../../../common/middlewares/validationMiddleware";
+import { getStrategy } from "../strategies/strategyFactory";
 
 // Note: in routes we use validation middleware; controller expects parsed body
 
@@ -33,23 +33,24 @@ export class CouponController {
     try {
       const id = req.params.id;
       const c = await service.getCoupon(id);
-      if (!c) return res.status(404).json({ message: 'Not found' });
+      if (!c) return res.status(404).json({ message: "Not found" });
       res.json(c);
     } catch (err) {
       next(err);
     }
   }
 
-  async delete(req:Request , res:Response , next: NextFunction){
+  async delete(req: Request, res: Response, next: NextFunction) {
     try {
-        const {id} = req.params;
-        const result = await service.deleteCoupons(id)
-        res.status(200).send({
-            result : result,
-            msg:"Deleted Successfully"
-        })
+      const { id } = req.params;
+      const result = await service.deleteCoupons(id);
+      return res.status(200).json({
+        success: true,
+        message: "Deleted successfully",
+        result,
+      });
     } catch (error) {
-        next(error)
+      next(error);
     }
   }
 
