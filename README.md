@@ -152,6 +152,32 @@ bash
 Copy code
 npm run dev
 ```
+
+#CURLS WHEN YOU APPLICATION RUNS ON LOCALHOST 4000
+```json
+curl --location 'http://localhost:4000/health'
+
+curl --location 'http://localhost:4000/v1/coupons' --header 'Content-Type: application/json' \
+--data '{"type":"cart-wise","details":{"threshold":100,"discount":10}}'
+
+curl --location 'http://localhost:4000/v1/coupons' --header 'Content-Type: application/json' \
+--data '{"type":"product-wise","details":{"productId":"1","discount":20}}'
+
+curl --location 'http://localhost:4000/v1/coupons' --header 'Content-Type: application/json' \
+--data '{"type":"bxgy","details":{"buyProducts":[{"productId":"1","quantity":2}],"getProducts":[{"productId":"3","quantity":1}],"repetitionLimit":2}}'
+
+curl --location GET 'http://localhost:4000/v1/coupons'
+
+curl --location GET 'http://localhost:4000/v1/coupons/<id>'
+
+curl --location --request DELETE 'http://localhost:4000/v1/coupons/<id>'
+
+curl --location 'http://localhost:4000/v1/coupons/applicable' --header 'Content-Type: application/json' \
+--data '{"cart":{"items":[{"productId":"1","quantity":6,"price":50},{"productId":"2","quantity":3,"price":30},{"productId":"3","quantity":2,"price":25}]}}'
+
+curl --location 'http://localhost:4000/v1/coupons/apply/<id>' --header 'Content-Type: application/json' \
+--data '{"cart":{"items":[{"productId":"1","quantity":6,"price":50},{"productId":"2","quantity":3,"price":30},{"productId":"3","quantity":2,"price":25}]}}'
+```
 🛠️ Tech Stack
 Node.js + TypeScript
 
