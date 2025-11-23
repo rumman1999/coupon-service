@@ -1,11 +1,18 @@
-import { Request, Response, NextFunction } from 'express';
-import { ApiError } from '../errors/ApiError';
+import { Request, Response, NextFunction } from "express";
+import ApiError from "../errors/ApiError";
 
-export function errorMiddleware(err: any, _req: Request, res: Response, _next: NextFunction) {
-  if (err instanceof ApiError) {
-    return res.status(err.statusCode).json({ error: { message: err.message, details: err.details } });
-  }
-  // eslint-disable-next-line no-console
-  console.error(err);
-  return res.status(500).json({ error: { message: 'Internal Server Error' } });
-}
+export const errorMiddleware = (
+  err: ApiError,
+  _req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  console.error("🔥 ERROR:", err);
+
+  return res.status(err.statusCode || 500).json({
+    success: false,
+    message: err.message,
+    errors: err.details || [],
+    statusCode: err.statusCode || 500,
+  });
+};
