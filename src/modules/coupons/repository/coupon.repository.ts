@@ -22,7 +22,11 @@ export class CouponRepository implements ICouponRepository {
     const r = await prisma.coupon.update({ where: { id }, data });
     return r as unknown as CouponModel;
   }
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<CouponModel| null> {
+    const r = await prisma.coupon.findUnique({ where: { id } });
+    if(!r) return null;
+    
     await prisma.coupon.delete({ where: { id } });
+    return r;
   }
 }
