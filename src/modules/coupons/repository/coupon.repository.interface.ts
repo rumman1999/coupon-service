@@ -5,5 +5,5 @@ export interface ICouponRepository {
   findById(id: string): Promise<CouponModel | null>;
   findAllActive(): Promise<CouponModel[]>;
   update(id: string, data: Partial<CouponModel>): Promise<CouponModel>;
-  delete(id: string): Promise<void>;
+  delete(id: string): Promise<CouponModel|null>;
 }
