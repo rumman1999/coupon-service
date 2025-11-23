@@ -3,6 +3,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18.x-green?logo=node.js)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Express](https://img.shields.io/badge/Express-4.x-lightgrey?logo=express)](https://expressjs.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue?logo=postgresql)](https://www.postgresql.org/)
 [![Prisma](https://img.shields.io/badge/Prisma-5.x-blue?logo=prisma)](https://www.prisma.io/)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
@@ -74,6 +75,7 @@ Global error handler returns structured responses:
   "statusCode": 404
 }
 ```
+```json
 📁 Project Structure
 pgsql
 Copy code
@@ -102,6 +104,7 @@ project-root/
 ├─ prisma/schema.prisma
 ├─ package.json
 └─ README.md
+```
 ⚡ Features
 ✅ Implemented / Partially Implemented
 Cart-wise, product-wise, and BxGy coupon strategies
@@ -134,8 +137,8 @@ Stackable vs non-stackable coupon rules
 
 🚀 Setup & Running
 Install Dependencies
-
-bash
+```json
+#bash
 Copy code
 npm install
 Generate Prisma Client & Migrate DB
@@ -149,6 +152,33 @@ Start Development Server
 bash
 Copy code
 npm run dev
+```
+
+#CURLS WHEN YOU APPLICATION RUNS ON LOCALHOST 4000
+```json
+curl --location 'http://localhost:4000/health'
+
+curl --location 'http://localhost:4000/v1/coupons' --header 'Content-Type: application/json' \
+--data '{"type":"cart-wise","details":{"threshold":100,"discount":10}}'
+
+curl --location 'http://localhost:4000/v1/coupons' --header 'Content-Type: application/json' \
+--data '{"type":"product-wise","details":{"productId":"1","discount":20}}'
+
+curl --location 'http://localhost:4000/v1/coupons' --header 'Content-Type: application/json' \
+--data '{"type":"bxgy","details":{"buyProducts":[{"productId":"1","quantity":2}],"getProducts":[{"productId":"3","quantity":1}],"repetitionLimit":2}}'
+
+curl --location GET 'http://localhost:4000/v1/coupons'
+
+curl --location GET 'http://localhost:4000/v1/coupons/<id>'
+
+curl --location --request DELETE 'http://localhost:4000/v1/coupons/<id>'
+
+curl --location 'http://localhost:4000/v1/coupons/applicable' --header 'Content-Type: application/json' \
+--data '{"cart":{"items":[{"productId":"1","quantity":6,"price":50},{"productId":"2","quantity":3,"price":30},{"productId":"3","quantity":2,"price":25}]}}'
+
+curl --location 'http://localhost:4000/v1/coupons/apply/<id>' --header 'Content-Type: application/json' \
+--data '{"cart":{"items":[{"productId":"1","quantity":6,"price":50},{"productId":"2","quantity":3,"price":30},{"productId":"3","quantity":2,"price":25}]}}'
+```
 🛠️ Tech Stack
 Node.js + TypeScript
 
