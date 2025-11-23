@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+.env.*
+.prisma/
+coverage/
+logs/
+.DS_Store
+.idea/
+.vscode/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+*.tgz
