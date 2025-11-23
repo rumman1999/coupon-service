@@ -40,6 +40,19 @@ export class CouponController {
     }
   }
 
+  async delete(req:Request , res:Response , next: NextFunction){
+    try {
+        const {id} = req.params;
+        const result = await service.deleteCoupons(id)
+        res.status(200).send({
+            result : result,
+            msg:"Deleted Successfully"
+        })
+    } catch (error) {
+        next(error)
+    }
+  }
+
   async applicable(req: Request, res: Response, next: NextFunction) {
     try {
       const cart = req.body.cart;
