@@ -1,0 +1,439 @@
+{
+	"info": {
+		"_postman_id": "5b717f03-5f5a-4720-adaf-6de09564258d",
+		"name": "Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "39138910",
+		"_collection_link": "https://kya555.postman.co/workspace/gaian-service~ec319d33-07b1-4b8a-9baf-4eb6cdec2b63/collection/39138910-5b717f03-5f5a-4720-adaf-6de09564258d?action=share&source=collection_link&creator=39138910"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Create Coupen",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"type\": \"cart-wise\",\n  \"title\": \"10% OFF on 100+\",\n  \"details\": {\n    \"threshold\": 100,\n    \"discount\": 10\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:4000/v1/coupons"
+			},
+			"response": [
+				{
+					"name": "Create Coupen",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"cart-wise\",\n  \"title\": \"10% OFF on 100+\",\n  \"details\": {\n    \"threshold\": 100,\n    \"discount\": 10\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:4000/v1/coupons"
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "243"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"f3-OTAYmo4hR3KPIRtMRv/rnrnUllA\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 23 Nov 2025 15:07:14 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"da376954-2945-4c17-9cfa-1c06be82d04c\",\n    \"type\": \"cart-wise\",\n    \"title\": \"10% OFF on 100+\",\n    \"details\": {\n        \"discount\": 10,\n        \"threshold\": 100\n    },\n    \"isActive\": true,\n    \"expiresAt\": null,\n    \"createdAt\": \"2025-11-23T15:07:14.961Z\",\n    \"updatedAt\": \"2025-11-23T15:07:14.961Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "All Coupens",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:4000/v1/coupons"
+			},
+			"response": [
+				{
+					"name": "All Coupens",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:4000/v1/coupons"
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1075"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"433-6SKwj3r/x7/1zmu/dUB2dJnQzck\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 23 Nov 2025 15:11:43 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"da376954-2945-4c17-9cfa-1c06be82d04c\",\n        \"type\": \"cart-wise\",\n        \"title\": \"10% OFF on 100+\",\n        \"details\": {\n            \"discount\": 10,\n            \"threshold\": 100\n        },\n        \"isActive\": true,\n        \"expiresAt\": null,\n        \"createdAt\": \"2025-11-23T15:07:14.961Z\",\n        \"updatedAt\": \"2025-11-23T15:07:14.961Z\"\n    },\n    {\n        \"id\": \"7a27bf36-5c51-4206-80bf-6b9f8638ea81\",\n        \"type\": \"product-wise\",\n        \"title\": \"20% OFF on Product XYZ\",\n        \"details\": {\n            \"discount\": 20,\n            \"productId\": \"1\"\n        },\n        \"isActive\": true,\n        \"expiresAt\": null,\n        \"createdAt\": \"2025-11-23T15:10:45.320Z\",\n        \"updatedAt\": \"2025-11-23T15:10:45.320Z\"\n    },\n    {\n        \"id\": \"1262b27f-30c6-4fce-83f7-260979343116\",\n        \"type\": \"product-wise\",\n        \"title\": \"20% OFF on Product A\",\n        \"details\": {\n            \"discount\": 20,\n            \"productId\": \"1\"\n        },\n        \"isActive\": true,\n        \"expiresAt\": null,\n        \"createdAt\": \"2025-11-23T15:11:06.446Z\",\n        \"updatedAt\": \"2025-11-23T15:11:06.446Z\"\n    },\n    {\n        \"id\": \"803480ed-cb5b-4b9b-a28b-3d8301ed9cd5\",\n        \"type\": \"bxgy\",\n        \"title\": \"Buy 2 get 1 free\",\n        \"details\": {\n            \"buyProducts\": [\n                {\n                    \"quantity\": 2,\n                    \"productId\": \"1\"\n                }\n            ],\n            \"getProducts\": [\n                {\n                    \"quantity\": 1,\n                    \"productId\": \"3\"\n                }\n            ],\n            \"repetitionLimit\": 2\n        },\n        \"isActive\": true,\n        \"expiresAt\": null,\n        \"createdAt\": \"2025-11-23T15:11:20.236Z\",\n        \"updatedAt\": \"2025-11-23T15:11:20.236Z\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Get Coupen By ID",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:4000/v1/coupons/da376954-2945-4c17-9cfa-1c06be82d04c"
+			},
+			"response": [
+				{
+					"name": "Get Coupen By ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:4000/v1/coupons/da376954-2945-4c17-9cfa-1c06be82d04c"
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "243"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"f3-OTAYmo4hR3KPIRtMRv/rnrnUllA\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 23 Nov 2025 15:12:27 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"da376954-2945-4c17-9cfa-1c06be82d04c\",\n    \"type\": \"cart-wise\",\n    \"title\": \"10% OFF on 100+\",\n    \"details\": {\n        \"discount\": 10,\n        \"threshold\": 100\n    },\n    \"isActive\": true,\n    \"expiresAt\": null,\n    \"createdAt\": \"2025-11-23T15:07:14.961Z\",\n    \"updatedAt\": \"2025-11-23T15:07:14.961Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Coupons Applicable",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cart\": {\n    \"items\": [\n      { \"productId\": \"1\", \"quantity\": 6, \"price\": 50 },\n      { \"productId\": \"2\", \"quantity\": 3, \"price\": 30 },\n      { \"productId\": \"3\", \"quantity\": 2, \"price\": 25 }\n    ]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:4000/v1/coupons/applicable"
+			},
+			"response": [
+				{
+					"name": "Coupons Applicable",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cart\": {\n    \"items\": [\n      { \"productId\": \"1\", \"quantity\": 6, \"price\": 50 },\n      { \"productId\": \"2\", \"quantity\": 3, \"price\": 30 },\n      { \"productId\": \"3\", \"quantity\": 2, \"price\": 25 }\n    ]\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:4000/v1/coupons/applicable"
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "490"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1ea-5BUgLvtOsnfmH44EgDR8nY4lEkk\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 23 Nov 2025 15:15:39 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"applicableCoupons\": [\n        {\n            \"couponId\": \"da376954-2945-4c17-9cfa-1c06be82d04c\",\n            \"discountAmount\": 44,\n            \"breakdown\": {\n                \"total\": 440\n            }\n        },\n        {\n            \"couponId\": \"7a27bf36-5c51-4206-80bf-6b9f8638ea81\",\n            \"discountAmount\": 60,\n            \"breakdown\": [\n                {\n                    \"productId\": \"1\",\n                    \"discount\": 60\n                }\n            ]\n        },\n        {\n            \"couponId\": \"1262b27f-30c6-4fce-83f7-260979343116\",\n            \"discountAmount\": 60,\n            \"breakdown\": [\n                {\n                    \"productId\": \"1\",\n                    \"discount\": 60\n                }\n            ]\n        },\n        {\n            \"couponId\": \"803480ed-cb5b-4b9b-a28b-3d8301ed9cd5\",\n            \"discountAmount\": 50,\n            \"breakdown\": [\n                {\n                    \"productId\": \"3\",\n                    \"freeCount\": 2,\n                    \"unitPrice\": 25\n                }\n            ]\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Coupons Apply",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cart\": {\n    \"items\": [\n      { \"productId\": \"1\", \"quantity\": 6, \"price\": 50 },\n      { \"productId\": \"2\", \"quantity\": 3, \"price\": 30 },\n      { \"productId\": \"3\", \"quantity\": 2, \"price\": 25 }\n    ]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:4000/v1/coupons/apply/da376954-2945-4c17-9cfa-1c06be82d04c"
+			},
+			"response": [
+				{
+					"name": "Coupons Apply",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cart\": {\n    \"items\": [\n      { \"productId\": \"1\", \"quantity\": 6, \"price\": 50 },\n      { \"productId\": \"2\", \"quantity\": 3, \"price\": 30 },\n      { \"productId\": \"3\", \"quantity\": 2, \"price\": 25 }\n    ]\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:4000/v1/coupons/apply/da376954-2945-4c17-9cfa-1c06be82d04c"
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "108"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"6c-xbiK+117SRJ8ZEpCFID4Ly3PDKA\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 23 Nov 2025 15:16:52 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"result\": {\n        \"couponId\": \"da376954-2945-4c17-9cfa-1c06be82d04c\",\n        \"discountAmount\": 44,\n        \"breakdown\": {\n            \"total\": 440\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "delete Coupons",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:4000/v1/coupons/da376954-2945-4c17-9cfa-1c06be82d04c"
+			},
+			"response": [
+				{
+					"name": "delete Coupons",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:4000/v1/coupons/da376954-2945-4c17-9cfa-1c06be82d04c"
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "283"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"11b-w36vNB91y+9BGeQDvlT9L6pOPd8\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 23 Nov 2025 15:56:22 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"result\": {\n        \"id\": \"da376954-2945-4c17-9cfa-1c06be82d04c\",\n        \"type\": \"cart-wise\",\n        \"title\": \"10% OFF on 100+\",\n        \"details\": {\n            \"discount\": 10,\n            \"threshold\": 100\n        },\n        \"isActive\": true,\n        \"expiresAt\": null,\n        \"createdAt\": \"2025-11-23T15:07:14.961Z\",\n        \"updatedAt\": \"2025-11-23T15:07:14.961Z\"\n    },\n    \"msg\": \"Deleted Successfully\"\n}"
+				}
+			]
+		}
+	]
+}

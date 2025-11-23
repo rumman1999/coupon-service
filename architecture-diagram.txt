@@ -1,0 +1,33 @@
+┌─────────────────────────────────────────────┐
+│              HTTP Layer (Express)           │
+│      Routes  →  Controller (Classes)        │
+│      (Validation middleware w/ Zod/Yup)     │
+└─────────────────────────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────┐
+│               Service Layer                 │
+│  (Business Logic, deals with strategies &   │
+│   coupon selection, caching, orchestration) │
+└─────────────────────────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────┐
+│        Strategy Engine / Rule Engine        │
+│    Each coupon type = separate strategy     │
+│    Dynamically selected by factory class    │
+│    Plug-in like extension support           │
+└─────────────────────────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────┐
+│    Repository Layer (DB Abstraction)        │
+│  (Postgres/Mongo/inMemory adapter later)    │
+└─────────────────────────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────┐
+│       Infrastructure (Redis Cache)          │
+│  Caching coupon rules + cart snapshot       │
+│  Evict/invalidate on change                 │
+└─────────────────────────────────────────────┘

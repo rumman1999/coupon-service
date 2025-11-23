@@ -73,6 +73,7 @@ Global error handler returns structured responses:
   "message": "Coupon not found",
   "statusCode": 404
 }
+```
 📁 Project Structure
 pgsql
 Copy code

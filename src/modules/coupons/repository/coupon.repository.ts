@@ -1,6 +1,6 @@
-import { ICouponRepository } from './coupon.repository.interface';
-import { prisma } from '../../../infrastructure/db/prismaClient';
-import { CouponModel } from '../models/coupon.model';
+import { ICouponRepository } from "./coupon.repository.interface";
+import { prisma } from "../../../infrastructure/db/prismaClient";
+import { CouponModel } from "../models/coupon.model";
 
 export class CouponRepository implements ICouponRepository {
   async create(data: Partial<CouponModel>): Promise<CouponModel> {
@@ -14,7 +14,10 @@ export class CouponRepository implements ICouponRepository {
   async findAllActive(): Promise<CouponModel[]> {
     const now = new Date();
     const r = await prisma.coupon.findMany({
-      where: { isActive: true, OR: [{ expiresAt: null }, { expiresAt: { gt: now } }] }
+      where: {
+        isActive: true,
+        OR: [{ expiresAt: null }, { expiresAt: { gt: now } }],
+      },
     });
     return r as unknown as CouponModel[];
   }
@@ -22,10 +25,10 @@ export class CouponRepository implements ICouponRepository {
     const r = await prisma.coupon.update({ where: { id }, data });
     return r as unknown as CouponModel;
   }
-  async delete(id: string): Promise<CouponModel| null> {
+  async delete(id: string): Promise<CouponModel | null> {
     const r = await prisma.coupon.findUnique({ where: { id } });
-    if(!r) return null;
-    
+    if (!r) return null;
+
     await prisma.coupon.delete({ where: { id } });
     return r;
   }
@@ -40,16 +43,16 @@ export class CouponRepository implements ICouponRepository {
   async decrementUses(couponId: string, amount: number) {
     return prisma.couponUsageCounter.update({
       where: { couponId },
-      data: { remainingUses: { decrement: amount } }
+      data: { remainingUses: { decrement: amount } },
     });
   }
 
   async recordUsage(payload: {
-    couponId: string,
-    userId?: string | null,
-    requestId?: string | null,
-    discount: number,
-    cartSnapshot: any
+    couponId: string;
+    userId?: string | null;
+    requestId?: string | null;
+    discount: number;
+    cartSnapshot: any;
   }) {
     return prisma.couponUsage.create({
       data: {
@@ -57,8 +60,8 @@ export class CouponRepository implements ICouponRepository {
         userId: payload.userId,
         requestId: payload.requestId,
         discount: payload.discount,
-        cart: payload.cartSnapshot
-      }
+        cart: payload.cartSnapshot,
+      },
     });
   }
 }
