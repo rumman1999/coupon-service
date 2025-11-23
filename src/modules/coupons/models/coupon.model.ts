@@ -1,9 +1,15 @@
-// Typed model for internal use, maps to Prisma shape
 export type CouponModel = {
   id: string;
   type: string;
-  title?: string;
-  details: any; // type per coupon
+  title?: string | null;
+  details: Record<string, any>;
   isActive: boolean;
-  expiresAt?: string | null;
+  startAt?: string | null;
+  endAt?: string | null;
+  preview: boolean;
+  metadata?: Record<string, any> | null;
+  version: number;
+
+  createdAt: string;
+  updatedAt: string;
 };
