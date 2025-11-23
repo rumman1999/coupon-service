@@ -16,5 +16,7 @@ router.get('/', (req, res, next) => controller.list(req, res, next));
 router.get('/:id', (req, res, next) => controller.get(req, res, next));
 router.post('/applicable', validateBody(ApplicableCouponsSchema), (req, res, next) => controller.applicable(req, res, next));
 router.post('/apply/:id', validateBody(ApplyCouponSchema), (req, res, next) => controller.apply(req, res, next));
+router.delete('/:id', (req, res, next) => controller.delete(req, res, next));
+
 
 export default router;
