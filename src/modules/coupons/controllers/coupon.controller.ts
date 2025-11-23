@@ -3,6 +3,7 @@ import { CouponService } from "../service/coupon.service";
 import { CreateCouponSchema } from "../dto/createCoupon.dto";
 import { validateBody } from "../../../common/middlewares/validationMiddleware";
 import { getStrategy } from "../strategies/strategyFactory";
+import { applyStackingPolicy, computeTotal, loadActiveCoupons, normalizeCart, preconditionPasses, promiseAllLimit } from "../utils";
 
 // Note: in routes we use validation middleware; controller expects parsed body
 
@@ -33,9 +34,8 @@ export class CouponController {
     try {
       const id = req.params.id;
       const c = await service.getCoupon(id);
-      if (!c) return res.status(404).json({ message: "Coupon Not found",
-        id:id
-       });
+      if (!c)
+        return res.status(404).json({ message: "Coupon Not found", id: id });
       res.json(c);
     } catch (err) {
       next(err);
@@ -61,6 +61,8 @@ export class CouponController {
       next(err);
     }
   }
+
+  
 
   async apply(req: Request, res: Response, next: NextFunction) {
     try {
