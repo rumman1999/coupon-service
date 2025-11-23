@@ -1,17 +1,18 @@
-import { Request, Response, NextFunction } from 'express';
-import { ZodSchema, ZodError } from 'zod';
-import { ApiError } from '../errors/ApiError';
+import { ZodTypeAny } from "zod";
+import { Request, Response, NextFunction } from "express";
+import ApiError from "../errors/ApiError";
 
-export function validateBody(schema: ZodSchema<any>) {
-  return (req: Request, _res: Response, next: NextFunction) => {
+export const validateBody =
+  (schema: ZodTypeAny) =>
+  async (req: Request, _res: Response, next: NextFunction) => {
     try {
-      req.body = schema.parse(req.body);
+      req.body = await schema.parseAsync(req.body);
       return next();
-    } catch (e) {
-      if (e instanceof ZodError) {
-        throw new ApiError(400, 'Invalid request', e.errors);
+    } catch (err: any) {
+      if (err.errors) {
+        const formatted = err.errors.map((e: any) => e.message);
+        return next(ApiError.BadRequest("Validation Failed", formatted));
       }
-      next(e);
+      return next(ApiError.Internal("Unexpected validation error"));
     }
   };
-}
