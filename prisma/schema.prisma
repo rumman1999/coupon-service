@@ -1,3 +1,39 @@
+model Coupon {
+  id        String    @id @default(uuid())
+  type      String
+  title     String?
+  details   Json
+  isActive  Boolean   @default(true)
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  usageCounter CouponUsageCounter?
+  usages       CouponUsage[]
+}
+
+model CouponUsageCounter {
+  couponId      String @id
+  remainingUses Int    @default(0)
+  coupon        Coupon @relation(fields: [couponId], references: [id], onDelete: Cascade)
+}
+
+model CouponUsage {
+  id        String   @id @default(uuid())
+  couponId  String
+  userId    String?
+  requestId String?
+  discount  Float
+  cart      Json
+  createdAt DateTime @default(now())
+
+  coupon Coupon @relation(fields: [couponId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, couponId, requestId])
+  @@index([couponId])
+  @@index([userId])
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -5,15 +41,4 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-model Coupon {
-  id         String   @id @default(uuid())
-  type       String
-  title      String?
-  details    Json
-  isActive   Boolean  @default(true)
-  expiresAt  DateTime?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
 }
