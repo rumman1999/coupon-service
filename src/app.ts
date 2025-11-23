@@ -3,8 +3,7 @@ import bodyParser from "body-parser";
 import { config } from "./config/env";
 import couponRoutes from "./modules/coupons/routes";
 import { errorMiddleware } from "./common/middlewares/errorMiddleware";
-import { ApiError } from "./common/errors/ApiError";
-
+import ApiError from "./common/errors/ApiError";
 export function createApp() {
   const app = express();
   app.use(bodyParser.json());
