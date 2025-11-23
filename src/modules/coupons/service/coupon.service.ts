@@ -12,7 +12,7 @@ export class CouponService {
 
   async createCoupon(data: Partial<CouponModel>) {
     const c = await this.repo.create(data);
-    await redis.del(ACTIVE_COUPONS_KEY); // invalidate list cache
+    await redis.del(ACTIVE_COUPONS_KEY);
     await redis.set(COUPON_CACHE_KEY(c.id), JSON.stringify(c));
     return c;
   }
@@ -31,6 +31,11 @@ export class CouponService {
     const rs = await this.repo.findAllActive();
     await redis.set(ACTIVE_COUPONS_KEY, JSON.stringify(rs), 'EX', 60);
     return rs;
+  }
+
+  async deleteCoupons(id:string){
+    const deleteCoupons = await this.repo.delete(id);
+    return deleteCoupons;
   }
 
   async applicableCoupons(cart: CartDTO) {
