@@ -1,11 +1,11 @@
-import redis from '../../../infrastructure/redis/redisClient';
-import { CouponRepository } from '../repository/coupon.repository';
-import { getStrategy } from '../strategies/strategyFactory';
-import { CouponModel } from '../models/coupon.model';
-import { CartDTO } from '../strategies/base.strategy';
+import redis from "../../../infrastructure/redis/redisClient";
+import { CouponRepository } from "../repository/coupon.repository";
+import { getStrategy } from "../strategies/strategyFactory";
+import { CouponModel } from "../models/coupon.model";
+import { CartDTO } from "../strategies/base.strategy";
 
 const COUPON_CACHE_KEY = (id: string) => `coupon:${id}`;
-const ACTIVE_COUPONS_KEY = 'coupons:active';
+const ACTIVE_COUPONS_KEY = "coupons:active";
 
 export class CouponService {
   private repo = new CouponRepository();
@@ -29,29 +29,43 @@ export class CouponService {
     const cached = await redis.get(ACTIVE_COUPONS_KEY);
     if (cached) return JSON.parse(cached) as CouponModel[];
     const rs = await this.repo.findAllActive();
-    await redis.set(ACTIVE_COUPONS_KEY, JSON.stringify(rs), 'EX', 60);
+    await redis.set(ACTIVE_COUPONS_KEY, JSON.stringify(rs), "EX", 60);
     return rs;
   }
 
-  async deleteCoupons(id:string){
+  async deleteCoupons(id: string) {
     const deleteCoupons = await this.repo.delete(id);
-    return deleteCoupons;
+    if (!deleteCoupons) {
+      return {
+        success: false,
+        message: "Did not found the Coupon with the id",
+        id: id,
+      };
+    }
+    const result = {
+      success: true,
+      message: "Deleted successfully",
+      deleteCoupons,
+    };
+    return result;
   }
 
   async applicableCoupons(cart: CartDTO) {
     const coupons = await this.listActiveCoupons();
     // Evaluate concurrently with basic concurrency control if desired
-    const results = await Promise.all(coupons.map(async (c) => {
-      const strategy = getStrategy(c.type);
-      return strategy.calculate(cart, c);
-    }));
+    const results = await Promise.all(
+      coupons.map(async (c) => {
+        const strategy = getStrategy(c.type);
+        return strategy.calculate(cart, c);
+      })
+    );
     // return only those with discount > 0
-    return results.filter(r => r.discountAmount > 0);
+    return results.filter((r) => r.discountAmount > 0);
   }
 
   async applyCouponToCart(couponId: string, cart: CartDTO) {
     const coupon = await this.getCoupon(couponId);
-    if (!coupon) throw new Error('Coupon not found');
+    if (!coupon) throw new Error("Coupon not found");
     const strategy = getStrategy(coupon.type);
     const result = await strategy.calculate(cart, coupon);
     // Optionally, persist usage / emit event. For now, return result.
