@@ -33,7 +33,9 @@ export class CouponController {
     try {
       const id = req.params.id;
       const c = await service.getCoupon(id);
-      if (!c) return res.status(404).json({ message: "Not found" });
+      if (!c) return res.status(404).json({ message: "Coupon Not found",
+        id:id
+       });
       res.json(c);
     } catch (err) {
       next(err);
@@ -44,11 +46,7 @@ export class CouponController {
     try {
       const { id } = req.params;
       const result = await service.deleteCoupons(id);
-      return res.status(200).json({
-        success: true,
-        message: "Deleted successfully",
-        result,
-      });
+      return res.status(200).json(result);
     } catch (error) {
       next(error);
     }
