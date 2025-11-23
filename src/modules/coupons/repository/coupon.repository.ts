@@ -29,4 +29,36 @@ export class CouponRepository implements ICouponRepository {
     await prisma.coupon.delete({ where: { id } });
     return r;
   }
+
+  async getRemainingUses(couponId: string): Promise<number> {
+    const result = await prisma.couponUsageCounter.findUnique({
+      where: { couponId },
+    });
+    return result?.remainingUses ?? Infinity; // default unlimited
+  }
+
+  async decrementUses(couponId: string, amount: number) {
+    return prisma.couponUsageCounter.update({
+      where: { couponId },
+      data: { remainingUses: { decrement: amount } }
+    });
+  }
+
+  async recordUsage(payload: {
+    couponId: string,
+    userId?: string | null,
+    requestId?: string | null,
+    discount: number,
+    cartSnapshot: any
+  }) {
+    return prisma.couponUsage.create({
+      data: {
+        couponId: payload.couponId,
+        userId: payload.userId,
+        requestId: payload.requestId,
+        discount: payload.discount,
+        cart: payload.cartSnapshot
+      }
+    });
+  }
 }
