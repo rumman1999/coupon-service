@@ -1,24 +1,86 @@
-#Coupons Service — Scalable Node.js + TypeScript Architecture
+# 🏷️ Coupons Service — Scalable Node.js + TypeScript Architecture
 
-A production-ready Coupon Management & Discount Engine, built using Node.js, TypeScript, Prisma, Express, and Strategy Pattern, designed to support multiple coupon types, maintain clean separation of concerns, and allow easy future extensions.
+[![Node.js](https://img.shields.io/badge/Node.js-18.x-green?logo=node.js)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Express](https://img.shields.io/badge/Express-4.x-lightgrey?logo=express)](https://expressjs.com/)
+[![Prisma](https://img.shields.io/badge/Prisma-5.x-blue?logo=prisma)](https://www.prisma.io/)
+[![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
-This project is built as part of the Monk Commerce 2025 Backend Developer Task, with strong focus on:
+A **production-ready Coupon Management & Discount Engine**, built using Node.js, TypeScript, Prisma, and Express, designed to support multiple coupon types, maintain clean separation of concerns, and allow easy future extensions.
 
-Extensibility: Add new coupon types without touching existing logic
+This project was developed as part of the **Monk Commerce 2025 Backend Developer Task**.
 
-Scalability: Modular architecture with clear boundaries
+---
 
-Clean Code: DTOs, repositories, services, strategies, controllers
+## 🧩 Core Architecture
 
-Robustness: Typed schema validation (Zod), error handling, middlewares
+### 1️⃣ Strategy Pattern for Coupon Types
+Each coupon type has:
+- Dedicated **DTO**
+- Independent **Strategy class**
+- Shared **BaseStrategy interface**
+- **StrategyFactory** resolves the appropriate strategy
 
-Performance: In-memory + Redis caching layer (pluggable)
+Example structure:
 
+src/modules/coupons/strategies/
+├─ base.strategy.ts
+├─ cartWise.strategy.ts
+├─ productWise.strategy.ts
+├─ bxgy.strategy.ts
+└─ strategyFactory.ts
+
+yaml
+Copy code
+
+> ✅ Open for extension, closed for modification (OCP) — ideal for a growing e-commerce coupon system.
+
+---
+
+### 2️⃣ Repository Pattern
+All database interactions are abstracted via repository classes:
+
+coupon.repository.interface.ts
+coupon.repository.ts
+
+yaml
+Copy code
+
+Benefits:
+- Swap database (Prisma → MongoDB / MySQL / Redis) without touching service logic
+- Unit test with mocked repositories
+
+---
+
+### 3️⃣ DTO + Validation Layer
+- All inputs validated via **Zod schemas**:
+  - `createCoupon.dto.ts`
+  - `applyCoupon.dto.ts`
+  - `applicableCoupons.dto.ts`
+- `ValidationMiddleware` ensures:
+  - ✅ Strict typing
+  - ✅ Sanitized payloads
+  - ❌ Malformed data never reaches business logic
+
+---
+
+### 4️⃣ Consistent Error Handling
+Global error handler returns structured responses:
+
+```json
+{ 
+  "success": false,
+  "message": "Coupon not found",
+  "statusCode": 404
+}
+📁 Project Structure
+pgsql
+Copy code
 project-root/
 ├─ src/
-│  ├─ app.ts                → Express App Bootstrap
-│  ├─ server.ts             → HTTP Server
-│  ├─ config/               → Env/Config Setup
+│  ├─ app.ts                 → Express App Bootstrap
+│  ├─ server.ts              → HTTP Server
+│  ├─ config/                → Env/Config Setup
 │  ├─ infrastructure/
 │  │  ├─ redis/redisClient.ts
 │  │  └─ db/prismaClient.ts
@@ -34,154 +96,71 @@ project-root/
 │  │     ├─ models/
 │  │     ├─ repository/
 │  │     ├─ service/
-│  │     ├─ strategies/      ← Strategy Pattern for coupon logic
+│  │     ├─ strategies/
 │  │     └─ routes.ts
 ├─ prisma/schema.prisma
 ├─ package.json
 └─ README.md
+⚡ Features
+✅ Implemented / Partially Implemented
+Cart-wise, product-wise, and BxGy coupon strategies
 
-This layout follows modular, domain-driven design ensuring clean scalability as the system grows.
+Modular, extensible architecture
 
+DTO + Zod validation
 
-🧩 Core Architecture Decisions
-1️⃣ Strategy Pattern for Coupon Types
+Repository pattern for DB abstraction
 
-Each coupon type has:
+Basic single-coupon application
 
-A dedicated DTO
+🟡 Partially Implemented
+Mixed discounts (percentage + flat)
 
-Independent Strategy class
+Coupon usage counters (global / per-user)
 
-Shared BaseStrategy interface
+Priority-based evaluation for multiple coupons (currently single coupon applied)
 
-A StrategyFactory to resolve appropriate strategy
+🔴 Planned / Future Enhancements
+Auto-applicable best coupon selection
 
-This ensures new coupon types can be added without touching existing logic.
+Customer-segment / user-based rules (first order, VIP tiers)
 
-Example:
+Category-wise coupons
 
-strategies/
-├─ base.strategy.ts
-├─ cartWise.strategy.ts
-├─ productWise.strategy.ts
-├─ bxgy.strategy.ts
-└─ strategyFactory.ts
+Vendor-restricted coupons
 
+Stackable vs non-stackable coupon rules
 
-➡️ Open for extension, closed for modification (OCP) — ideal for a growing e-commerce coupon system.
-
-2️⃣ Repository Pattern
-
-All DB interaction is abstracted under:
-
-coupon.repository.interface.ts
-coupon.repository.ts
-
-
-This lets you:
-
-Replace Prisma with MongoDB / MySQL / Redis / in-memory without touching service logic.
-
-Write unit tests by mocking repository.
-
-3️⃣ DTO + Validation Layer
-
-Every input is validated via Zod schemas:
-
-createCoupon.dto.ts
-applyCoupon.dto.ts
-applicableCoupons.dto.ts
-ValidationMiddleware ensures:
-
-✅ Strict typing
-✅ Sanitized incoming data
-❌ No malformed payloads reach business logic
-
-4️⃣ Consistent Error Handling
-
-A global error handler ensures structured error responses:
-
-{ 
-  "success": false,
-  "message": "Coupon not found",
-  "statusCode": 404
-}
-
-#Setup & Running
+🚀 Setup & Running
 Install Dependencies
-npm install
 
-Generate Prisma Client & DB Migration
+bash
+Copy code
+npm install
+Generate Prisma Client & Migrate DB
+
+bash
+Copy code
 npx prisma generate
 npx prisma migrate dev --name init
-
 Start Development Server
+
+bash
+Copy code
 npm run dev
+🛠️ Tech Stack
+Node.js + TypeScript
 
+Express.js
 
-=====================================================
-🟡 PARTIALLY IMPLEMENTED CASES
+Prisma ORM
 
-The structure supports them, but full logic may be missing.
+Redis caching
 
-1. Percentage + Flat Mixed Discounts
+Zod for validation
 
-Example:
+Strategy Pattern for coupon logic
 
-Buy 2 Get 50% off on next item
-Your BxGy structure could support this if extended.
-
-2. Coupon Usage Count
-
-Max global uses
-
-Max per-user uses
-(Currently not implemented but trivial with Redis counter)
-
-3. Combining Multiple Coupons
-
-Best discount selection
-
-Priority-based evaluation
-(Currently, only one coupon is applied at a time)
-===========================================================
-🔴 UNIMPLEMENTED (BUT DESIGNED FOR FUTURE)
-
-
-#These are important and common in real e-commerce systems.
-1. Auto-applicable Coupons
-
-System automatically picks the best possible coupon.
-
-2. Customer Segment / User-based Rules
-
-Examples:
-
-First order only
-
-New customers
-
-VIP tiers
-
-User-specific coupon code
-
-Can be easily added inside BaseStrategy isApplicable().
-
-3. Category-wise Coupons
-
-Discount applies only to certain product categories.
-Requires product catalog service integration.
-
-4. Vendor-restricted Coupons
-
-Example:
-“Only valid on Nike products”
-
-Would require an additional field in the schema.
-
-5. Stackable vs Non-stackable Coupons
-
-Right now:
-❌ No stacking rules implemented
-Future:
-✓ Controlled by a stackable: boolean field
+📖 Contributing
+Contributions are welcome!
+Please fork the repo, create a feature branch, and submit a PR.
