@@ -73,6 +73,8 @@ Global error handler returns structured responses:
   "message": "Coupon not found",
   "statusCode": 404
 }
+```
+```json
 📁 Project Structure
 pgsql
 Copy code
@@ -101,6 +103,7 @@ project-root/
 ├─ prisma/schema.prisma
 ├─ package.json
 └─ README.md
+```
 ⚡ Features
 ✅ Implemented / Partially Implemented
 Cart-wise, product-wise, and BxGy coupon strategies
@@ -133,8 +136,8 @@ Stackable vs non-stackable coupon rules
 
 🚀 Setup & Running
 Install Dependencies
-
-bash
+```json
+#bash
 Copy code
 npm install
 Generate Prisma Client & Migrate DB
@@ -148,6 +151,7 @@ Start Development Server
 bash
 Copy code
 npm run dev
+```
 🛠️ Tech Stack
 Node.js + TypeScript
 
